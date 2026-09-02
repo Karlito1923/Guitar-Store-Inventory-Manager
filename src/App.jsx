@@ -9,11 +9,11 @@ import styles from './App.module.css';
 
 export default function App() {
 const initialGuitars = [
-  { id: 1, model: 'Fender Stratocaster', bodyType: 'Electric', brand: 'Fender', stock: 15, manufacturer: 'Fender Musical Instruments', userRole: 'Merchant' },
-  { id: 2, model: 'Gibson Les Paul', bodyType: 'Electric', brand: 'Gibson', stock: 8, manufacturer: 'Gibson Brands, Inc.', userRole: 'Merchant' },
+  { id: 1, model: 'Fender Stratocaster', bodyType: 'Electric', brand: 'Fender', stock: 33, manufacturer: 'Fender Musical Instruments', userRole: 'Merchant' },
+  { id: 2, model: 'Gibson Les Paul', bodyType: 'Electric', brand: 'Gibson', stock: 9, manufacturer: 'Gibson Brands, Inc.', userRole: 'Merchant' },
   { id: 3, model: 'Taylor 214ce', bodyType: 'Acoustic', brand: 'Taylor', stock: 4, manufacturer: 'Taylor Guitars', userRole: 'Consumer' },
-  { id: 4, model: 'Ibanez SR500E', bodyType: 'Bass', brand: 'Ibanez', stock: 2, manufacturer: 'Hoshino Gakki', userRole: 'Merchant' },
-  { id: 5, model: 'PRS Custom 24', bodyType: 'Electric', brand: 'PRS', stock: 12, manufacturer: 'Paul Reed Smith', userRole: 'Merchant' },
+  { id: 4, model: 'Ibanez SR500E', bodyType: 'Bass', brand: 'Ibanez', stock: 67, manufacturer: 'Hoshino Gakki', userRole: 'Merchant' },
+  { id: 5, model: 'PRS Custom 24', bodyType: 'Electric', brand: 'PRS', stock: 17, manufacturer: 'Paul Reed Smith', userRole: 'Merchant' },
 ];
 
   const [items, setItems] = useState(initialGuitars);
