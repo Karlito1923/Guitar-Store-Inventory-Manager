@@ -8,22 +8,20 @@ import {
 import styles from './App.module.css';
 
 export default function App() {
-  // Initial Mock Data to make it immediately interactive
-  const initialGuitars = [
-    { id: 1, model: 'Fender Stratocaster', bodyType: 'Electric', brand: 'Fender', stock: 15, manufacturer: 'Fender Musical Instruments', userRole: 'Merchant' },
-    { id: 2, model: 'Gibson Les Paul', bodyType: 'Electric', brand: 'Gibson', stock: 8, manufacturer: 'Gibson Brands, Inc.', userRole: 'Merchant' },
-    { id: 3, model: 'Taylor 214ce', bodyType: 'Acoustic', brand: 'Taylor', stock: 4, manufacturer: 'Taylor Guitars', userRole: 'Consumer' },
-    { id: 4, model: 'Ibanez SR500E', bodyType: 'Bass', brand: 'Ibanez', stock: 2, manufacturer: 'Hoshino Gakki', userRole: 'Merchant' },
-  ];
+const initialGuitars = [
+  { id: 1, model: 'Fender Stratocaster', bodyType: 'Electric', brand: 'Fender', stock: 15, manufacturer: 'Fender Musical Instruments', userRole: 'Merchant' },
+  { id: 2, model: 'Gibson Les Paul', bodyType: 'Electric', brand: 'Gibson', stock: 8, manufacturer: 'Gibson Brands, Inc.', userRole: 'Merchant' },
+  { id: 3, model: 'Taylor 214ce', bodyType: 'Acoustic', brand: 'Taylor', stock: 4, manufacturer: 'Taylor Guitars', userRole: 'Consumer' },
+  { id: 4, model: 'Ibanez SR500E', bodyType: 'Bass', brand: 'Ibanez', stock: 2, manufacturer: 'Hoshino Gakki', userRole: 'Merchant' },
+  { id: 5, model: 'PRS Custom 24', bodyType: 'Electric', brand: 'PRS', stock: 12, manufacturer: 'Paul Reed Smith', userRole: 'Merchant' },
+];
 
-  // Main State
   const [items, setItems] = useState(initialGuitars);
   const [selectedItem, setSelectedItem] = useState(initialGuitars[0]);
   const [roleFilter, setRoleFilter] = useState('ALL');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('newest');
 
-  // Form State
   const [formData, setFormData] = useState({
     model: '',
     bodyType: 'Electric',
@@ -35,7 +33,6 @@ export default function App() {
 
   const [errors, setErrors] = useState({});
 
-  // Real-time Validation (Phase 1)
   const validate = (data) => {
     const errs = {};
     if (!data.model || data.model.length < 3) {
@@ -73,7 +70,6 @@ export default function App() {
     setItems((prev) => [newItem, ...prev]);
     setSelectedItem(newItem);
 
-    // Reset Form
     setFormData({
       model: '',
       bodyType: 'Electric',
@@ -85,14 +81,12 @@ export default function App() {
     setErrors({});
   };
 
-  // Phase 3: Selection Sync via useEffect
   useEffect(() => {
     if (items.length > 0 && !items.some((i) => i.id === selectedItem?.id)) {
       setSelectedItem(items[0]);
     }
   }, [items, selectedItem]);
 
-  // Delete Record Handler
   const handleDelete = (id) => {
     const updated = items.filter((item) => item.id !== id);
     setItems(updated);
@@ -101,11 +95,9 @@ export default function App() {
     }
   };
 
-  // Interactive Metrics Analytics
   const totalStock = useMemo(() => items.reduce((acc, curr) => acc + Number(curr.stock), 0), [items]);
   const merchantCount = useMemo(() => items.filter((i) => i.userRole === 'Merchant').length, [items]);
 
-  // Multi-Filter & Search Processing
   const filteredData = useMemo(() => {
     return items
       .filter((item) => {
@@ -120,11 +112,10 @@ export default function App() {
         if (sortBy === 'stock-asc') return a.stock - b.stock;
         if (sortBy === 'stock-desc') return b.stock - a.stock;
         if (sortBy === 'brand') return a.brand.localeCompare(b.brand);
-        return b.id - a.id; // Newest
+        return b.id - a.id;
       });
   }, [items, roleFilter, searchTerm, sortBy]);
 
-  // Phase 2: TanStack Table Column Definition
   const columns = useMemo(
     () => [
       { header: 'Model', accessorKey: 'model' },
@@ -137,7 +128,7 @@ export default function App() {
           const val = info.getValue();
           return (
             <span style={{ fontWeight: 700, color: val <= 5 ? '#D90429' : 'inherit' }}>
-              {val} {val <= 5 && '⚠️ (Low)'}
+              {val} {val <= 5 && ' (Low)'}
             </span>
           );
         },
@@ -165,15 +156,14 @@ export default function App() {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
-      pagination: { pageSize: 4 },
+      pagination: { pageSize: 3 },
     },
   });
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>🎸 Guitar Store Inventory Manager</h1>
+      <h1 className={styles.title}> Guitar Store Inventory Manager</h1>
 
-      {/* Interactive Metric Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
         <div className={styles.card} style={{ textAlign: 'center', padding: '1.25rem' }}>
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>TOTAL MODELS</span>
@@ -190,9 +180,8 @@ export default function App() {
       </div>
 
       <div className={styles.grid}>
-        {/* Phase 1: Interactive Registration Form */}
         <form className={styles.form} onSubmit={handleSubmit}>
-          <h2>➕ Add Guitar Entry</h2>
+          <h2> Add Guitar Entry</h2>
 
           <div className={styles.formGroup}>
             <label>Guitar Model</label>
@@ -209,10 +198,10 @@ export default function App() {
           <div className={styles.formGroup}>
             <label>Body Type</label>
             <select name="bodyType" value={formData.bodyType} onChange={handleChange}>
-              <option value="Electric">⚡ Electric</option>
-              <option value="Acoustic">🎼 Acoustic</option>
-              <option value="Bass">🎸 Bass</option>
-              <option value="Classical">🎻 Classical</option>
+              <option value="Electric"> Electric</option>
+              <option value="Acoustic"> Acoustic</option>
+              <option value="Bass"> Bass</option>
+              <option value="Classical"> Classical</option>
             </select>
           </div>
 
@@ -283,7 +272,6 @@ export default function App() {
           </button>
         </form>
 
-        {/* Phase 3: Active Item Profile Detail Card */}
         <div>
           <div className={styles.card}>
             <h2>🔍 Active Item Details</h2>
@@ -325,15 +313,13 @@ export default function App() {
         </div>
       </div>
 
-      {/* Phase 2: Interactive Registry Table View */}
       <div className={styles.tableContainer} style={{ marginTop: '2.5rem' }}>
         <h2>📋 Registry Inventory Table</h2>
 
-        {/* Search & Dynamic Filter Control Bar */}
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }}>
           <input
             type="text"
-            placeholder="🔍 Search model, brand, or manufacturer..."
+            placeholder=" Search model, brand, or manufacturer..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
@@ -403,7 +389,6 @@ export default function App() {
           </tbody>
         </table>
 
-        {/* Pagination Controls */}
         <div className={styles.pagination}>
           <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
             ← Previous
